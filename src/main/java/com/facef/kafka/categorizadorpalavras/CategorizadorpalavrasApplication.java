@@ -24,9 +24,9 @@ public class CategorizadorpalavrasApplication {
 	@SuppressWarnings("unchecked")
 	public Function<KStream<Object, String>, KStream<Object, WordCount>[]> process() {
 
-		Predicate<Object, WordCount> isSmall = (k, v) -> v.getKey().length() < 1;
-		Predicate<Object, WordCount> isMedium = (k, v) -> v.getKey().length() < 1;
-		Predicate<Object, WordCount> isLarge = (k, v) -> v.getKey().length() < 1;
+		Predicate<Object, WordCount> isSmall = (k, v) -> v.getKey().length() <= 3;
+		Predicate<Object, WordCount> isMedium = (k, v) -> v.getKey().length() <= 6;
+		Predicate<Object, WordCount> isLarge = (k, v) -> v.getKey().length() > 6;
 
 		return input -> input.flatMapValues(value -> Arrays.asList(value.toLowerCase().split("\\W+")))
 				.map((key, value) -> new KeyValue<>(value, value))
